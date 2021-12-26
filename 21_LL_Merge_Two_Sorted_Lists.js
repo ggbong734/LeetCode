@@ -11,7 +11,22 @@
  * @return {ListNode}
  */
 
-// https://redquark.org/leetcode/0021-merge-two-sorted-lists/
+// https://duncan-mcardle.medium.com/leetcode-problem-21-merge-two-sorted-lists-javascript-b5a4de3da319
+
+var mergeTwoLists = function (list1, list2) {
+    // recursive most efficient approach
+    if (!list1) return list2;
+    if (!list2) return list1;
+
+    if (list1.val < list2.val) {
+        list1.next = mergeTwoLists(list1.next, list2);
+        return list1;
+    } else {
+        list2.next = mergeTwoLists(list1, list2.next);
+        return list2;
+    }
+};
+
 
 var mergeTwoLists = function (list1, list2) {
     // check if any list is null
