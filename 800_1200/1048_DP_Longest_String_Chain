@@ -1,0 +1,43 @@
+/**
+ * @param {string[]} words
+ * @return {number}
+ */
+var longestStrChain = function (words) {
+  // dfs top down with memoization
+  // use set to store words to visit, use map to memoize visited word in dfs
+  // for each word, assume it is the final destination and get the maximum length of each word
+  // in the dfs, base case is when word exists in memo
+  // initialize max Length
+  // for each char in word,
+  // eliminate the char to create newWord. If newWord exists in set,
+  // we perform dfs and add one to the currentLength
+  // update maxLength for this word if we update currentLength
+  // memoize maxLength and return memo[word]
+
+  const set = new Set(words);
+  const memo = {}; // memo for dfs
+
+  const dfs = (word) => {
+    if (memo[word]) return memo[word];
+    let maxLength = 1;
+
+    let currentLength;
+    for (let i = 0; i < word.length; i++) {
+      let newWord = word.slice(0, i) + word.slice(i + 1);
+      if (set.has(newWord)) {
+        currentLength = 1 + dfs(newWord);
+        maxLength = Math.max(maxLength, currentLength);
+      }
+    }
+    memo[word] = maxLength;
+    return memo[word];
+  }
+
+  let ans = 0;
+  for (let word of words) {
+    ans = Math.max(ans, dfs(word));
+  }
+
+  return ans;
+
+};
