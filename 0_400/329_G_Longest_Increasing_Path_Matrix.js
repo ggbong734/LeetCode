@@ -4,9 +4,13 @@
  */
 var longestIncreasingPath = function (matrix) {
   // start at each cell
-  // perform dfs and keep track of path length
-  // use memo to  cache, memo stores r, c, path length
-  // only if path length is higher than what we have we visit cell
+  // perform dfs
+  // create a replica grid as memo, each cell memo stores the answer for each cell
+  // update and return memo as the answer, the longest path from that point
+  // do not check at start of dfs but check if we can traverse the child
+  // time: O(r*c) each cell/vertex will be calculated once
+  // time is Actually O(V+E) V is total number of cells and E is O(4V) so still O(r*c)
+  // space: O(mn) for the cache
   let rows = matrix.length;
   let cols = matrix[0].length;
   const dirs = [[0, 1], [1, 0], [0, -1], [-1, 0]];
