@@ -6,10 +6,10 @@
 //     return input[currentline++];
 // }
 
-// let T = readline();
+// let T = readline();       // get the first digit which is T
 // for(let i = 1; i <= T; i++){
-//     let N = readline().split(' ');
-//     let arr = readline().split(' ');
+//     let N = readline().split(' '); // don't use split if not array
+//     let arr = readline().split(' '); // use split only if array
 //     console.log(`Case #${i}: ${solve(N, arr)}`);
 // }
 
