@@ -27,44 +27,72 @@ var buildMatrix = function (k, rowConditions, colConditions) {
     inC[b]++;
   }
 
-  console.log(adjR);
-  console.log(adjC);
-
-  // need to detect cycle
-  visitedR = {};
-  visitedC = {};
-  qR = [];
-  qC = [];
-
   // populate starting queues with elements that have indegree of zero
   // for loop, and fill in queues with indegree zero
   // in while loop, for loop pop every element,
-  // for each element, find all the neighbors in adj list, if neigh is visited, return false/[]
+  // for each element, find all the neighbors in adj list,
+  // subtract all indegree of neighbors
+  // check if indegree is zero
+  // if neigh is visited, return false/[]
   // else add neigh to visited set, and push neigh to queue.
 
-  while (qR.length > 0) {
+  // need to detect cycle
+  const qR = [];
+  const qC = [];
+  let ir = 0;
+  let ic = 0;
+  // need to create a strictly increasing order from [[n, indegree]] for rows and cols
+  const num_inR = [];
+  const num_inC = [];
 
+  for (let [k, v] of Object.entries(inR)) {
+    if (v === 0) {
+      qR.push(k);
+      num_inR.push([k, ir]);
+      ir++;
+    }
   }
+  for (let [k, v] of Object.entries(inC)) {
+    if (v === 0) {
+      qC.push(k);
+      num_inC.push([k, ic]);
+      ic++;
+    }
+  }
+
+  while (qR.length > 0) {
+    let qRL = qR.length;
+    for (let i = 0; i < qRL; i++) {
+      let n = qR.shift();
+      for (let neigh of adjR[n]) {
+        neigh = neigh.toString();
+        inR[neigh]--;
+        if (inR[neigh] === 0) {
+          num_inR.push([neigh, ir]);
+          ir++;
+          qR.push(neigh);
+        }
+      }
+    }
+  }
+  if (num_inR.length < k) return [];
 
   while (qC.length > 0) {
-
+    let qCL = qC.length;
+    for (let i = 0; i < qCL; i++) {
+      let n = qC.shift();
+      for (let neigh of adjC[n]) {
+        neigh = neigh.toString();
+        inC[neigh]--;
+        if (inC[neigh] === 0) {
+          num_inC.push([neigh, ic]);
+          ic++
+          qC.push(neigh);
+        }
+      }
+    }
   }
-
-  const loc = new Array(k).fill(0);
-  const num_inR = Object.entries(inR).sort((a, b) => a[1] - b[1]);   //[[num, ind]] in ascending
-  const num_inC = Object.entries(inC).sort((a, b) => a[1] - b[1]);
-
-  // need to create a strictly increasing order from [[n, indegree]] for rows and cols
-
-  num_inR[0][1] = 0;
-  num_inC[0][1] = 0;
-  for (let i = 1; i < num_inR.length; i++) {
-    num_inR[i][1] = num_inR[i - 1][1] + 1;
-  }
-  for (let i = 1; i < num_inC.length; i++) {
-    num_inC[i][1] = num_inC[i - 1][1] + 1;
-  }
-
+  if (num_inC.length < k) return [];
 
   // combine the row and column designation for each number to the num_inR array to save space
   for (let i = 0; i < num_inR.length; i++) {
