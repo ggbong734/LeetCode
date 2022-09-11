@@ -11,7 +11,7 @@ const countPaths = (grid) => {
 const dfs = (r, c, grid, memo) => {
   let rows = grid.length;
   let cols = grid[0].length;
-  if (r < 0 || c < 0 || r >= rows || c >= cols || grid[r][c] === "X") return 0;
+  if (r >= rows || c >= cols || grid[r][c] === "X") return 0;
   if (r === rows - 1 && c === cols - 1) return 1;
   if (memo[r][c]) return memo[r][c];
 
