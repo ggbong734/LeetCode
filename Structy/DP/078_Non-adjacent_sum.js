@@ -13,7 +13,7 @@ const nonAdjacentSum = (nums) => {
 const helper = (nums, i, memo = {}) => {
   if (i >= nums.length) return 0;
   if (i in memo) return memo[i];
-  memo[i] = Math.max(nums[i] + helper(nums, i + 2, memo), helper(nums, i + 1, memo))
+  memo[i] = Math.max(nums[i] + helper(nums, i + 2, memo), helper(nums, i + 1, memo));
   return memo[i];
 }
 
