@@ -3,21 +3,23 @@
 
 const arrayStepper = (nums) => {
   // todo
-  // time complexity is O(n * a) go to each num and try each num
+  // time complexity is O(n * n) go to each num and try each num because worst case [7, 6, 5, 4, 3, 2, 1, 0, 0]
   // space complexity is O(n)
   return _arrayStepper(nums, 0);
 };
 
 const _arrayStepper = (nums, idx, memo = {}) => {
-  if (idx >= nums.length) return false;
-  if (idx === nums.length - 1) return true;
+  if (idx >= nums.length) return true;
   if (idx in memo) return memo[idx];
-  let ans = false;
+
   for (let i = 1; i <= nums[idx]; i++) {
-    ans = ans || _arrayStepper(nums, idx + i, memo);
+    if (_arrayStepper(nums, idx + i, memo) === true) {
+      memo[i] = true;
+      return true;
+    }
   }
-  memo[idx] = ans;
-  return ans;
+  memo[idx] = false;
+  return false;
 }
 
 module.exports = {
